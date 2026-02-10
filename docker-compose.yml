@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: devti-postgres
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: devti
+      POSTGRES_USER: devti_user
+      POSTGRES_PASSWORD: 931993
+    volumes:
+      - devti_pgdata:/var/lib/postgresql/data
+
+volumes:
+  devti_pgdata:
