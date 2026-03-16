@@ -93,7 +93,7 @@ A ideia é funcionar como um **mini Trello / To-Do List**, onde cada usuário ge
 
 ---
 
-## 🧱 Arquitetura em Camadas
+## 🧱 Arquitetura: Clean-ish (pragmática, com JPA no domínio)”
 
 ```text
 controller  → recebe as requisições HTTP

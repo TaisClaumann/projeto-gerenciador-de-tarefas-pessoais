@@ -1,7 +1,10 @@
 package com.example.gerenciadordetarefas.domain.service;
 
-import org.springframework.stereotype.Service;
+import com.example.gerenciadordetarefas.domain.entity.Tarefa;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-@Service
-public class TarefaService {
+public interface TarefaService extends BaseService<Tarefa, Long> {
+
+    Page<Tarefa> buscarPorUsuario(String email, Pageable pageable);
 }

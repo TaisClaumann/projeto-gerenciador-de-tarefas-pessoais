@@ -1,7 +1,7 @@
 package com.example.gerenciadordetarefas.domain.service;
 
-import org.springframework.stereotype.Service;
+import com.example.gerenciadordetarefas.domain.entity.Usuario;
 
-@Service
-public class UsuarioService {
+public interface UsuarioService extends BaseService<Usuario, String> {
+
 }
