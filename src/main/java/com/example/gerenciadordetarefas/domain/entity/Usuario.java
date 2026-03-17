@@ -6,20 +6,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@SQLRestriction("ativo = true")
 @Entity
 @Builder
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Email
     @NotBlank
     private String email;
@@ -30,5 +30,6 @@ public class Usuario {
     @NotBlank
     private String senha;
 
+    @NotNull
     private boolean ativo = true;
 }

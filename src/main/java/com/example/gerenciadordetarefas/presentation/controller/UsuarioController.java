@@ -5,6 +5,7 @@ import com.example.gerenciadordetarefas.domain.service.UsuarioService;
 import com.example.gerenciadordetarefas.presentation.dto.UsuarioRequestDto;
 import com.example.gerenciadordetarefas.presentation.dto.UsuarioResponseDto;
 import com.example.gerenciadordetarefas.presentation.mapper.UsuarioMapper;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -25,8 +26,14 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public UsuarioResponseDto salvar(@RequestBody UsuarioRequestDto usuarioRequestDto) {
+    public UsuarioResponseDto salvar(@Valid @RequestBody UsuarioRequestDto usuarioRequestDto) {
         Usuario usuario = usuarioService.salvar(usuarioMapper.toEntity(usuarioRequestDto));
+        return usuarioMapper.toResponseDto(usuario);
+    }
+
+    @PutMapping("/{email}")
+    public UsuarioResponseDto alterar(@PathVariable("email") String email, @Valid @RequestBody UsuarioRequestDto usuarioRequestDto) {
+        Usuario usuario = usuarioService.atualizar(email, usuarioMapper.toEntity(usuarioRequestDto));
         return usuarioMapper.toResponseDto(usuario);
     }
 

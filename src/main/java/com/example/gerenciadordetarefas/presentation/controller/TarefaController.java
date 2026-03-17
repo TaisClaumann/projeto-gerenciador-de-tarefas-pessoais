@@ -4,6 +4,7 @@ import com.example.gerenciadordetarefas.domain.entity.Tarefa;
 import com.example.gerenciadordetarefas.domain.service.TarefaService;
 import com.example.gerenciadordetarefas.presentation.dto.TarefaDto;
 import com.example.gerenciadordetarefas.presentation.mapper.TarefaMapper;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,7 +25,7 @@ public class TarefaController {
     }
 
     @PostMapping
-    public TarefaDto salvar(@RequestBody TarefaDto tarefaDto) {
+    public TarefaDto salvar(@Valid @RequestBody TarefaDto tarefaDto) {
         Tarefa tarefa = tarefaService.salvar(tarefaMapper.toEntity(tarefaDto));
         return tarefaMapper.toResponseDto(tarefa);
     }

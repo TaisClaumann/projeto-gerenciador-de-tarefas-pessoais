@@ -18,7 +18,7 @@ A ideia é funcionar como um **mini Trello / To-Do List**, onde cada usuário ge
     - Entidades
     - Relacionamentos
 - **Banco em memória (H2)**
-    - Para testes rápidos
+    - Para testes
 ---
 
 ## 🔐 Segurança
@@ -101,3 +101,112 @@ service     → regras de negócio
 repository  → acesso ao banco de dados
 dto         → objetos de entrada e saída da API
 exception   → tratamento global de erros
+
+---
+
+## 🧱 Cenários de Testes BDD (Behavior-Driven Development)
+
+### Dado: Usuário inexistente
+
+- **Quando:** Salvar com todos os campos obrigatórios preenchidos
+  **Então:** Deve salvar usuário com sucesso
+  
+- **Quando:** Salvar sem email
+  **Então:** Deve gerar erro
+  
+- **Quando:** Salvar sem nome
+  **Então:** Deve gerar erro
+  
+- **Quando:** Salvar sem senha
+  **Então:** Deve gerar erro
+  
+- **Quando:** Salvar sem informar se esta ativo
+  **Então:** Deve gerar erro
+
+- **Quando:** Alterar  
+  **Então:** Deve gerar erro 404 (usuário não encontrado)
+
+- **Quando:** Inativar  
+  **Então:** Deve gerar erro 404 (usuário não encontrado)
+
+- **Quando:** Salvar tarefa para este usuário  
+  **Então:** Deve gerar erro 404 (usuário não encontrado)
+  
+- **Quando:** Buscar por email
+  **Então:** Deve gerar erro 404 (usuário não encontrado)  
+  
+### Dado: Usuário existente e ativo
+
+- **Quando:** Salvar 
+  **Então:** Deve gerar erro 400 (registro já cadastrado)
+
+- **Quando:** Alterar  
+  **Então:** Deve atualizar usuário com sucesso
+
+- **Quando:** Inativar  
+  **Então:** Deve inativar usuário com sucesso
+
+- **Quando:** Salvar tarefa para este usuário  
+  **Então:** Deve salvar tarefa
+
+- **Quando:** Buscar por email
+  **Então:** Deve retornar usuário
+  
+### Dado: Usuário existente e inativo
+
+- **Quando:** Alterar  
+  **Então:** Deve gerar erro 404 (usuário não encontrado)
+
+- **Quando:** Inativar  
+  **Então:** Deve gerar erro 404 (usuário não encontrado)
+
+- **Quando:** Salvar tarefa para este usuário  
+  **Então:** Deve gerar erro 404 (usuário não encontrado)
+
+- **Quando:** Buscar por email
+  **Então:** Deve gerar erro 404 (usuário não encontrado)
+
+### Dado: Tarefa inexistente
+
+- **Quando:** Salvar com todos os campos obrigatórios preenchidos
+  **Então:** Deve salvar tarefa com sucesso
+  
+- **Quando:** Salvar sem título
+  **Então:** Deve gerar erro
+  
+- **Quando:** Salvar sem status
+  **Então:** Deve gerar erro
+  
+- **Quando:** Salvar sem prioridade
+  **Então:** Deve gerar erro
+  
+- **Quando:** Salvar sem informar usuario
+  **Então:** Deve gerar erro
+
+- **Quando:** Alterar  
+  **Então:** Deve gerar erro 404 (tarefa não encontrada)
+
+- **Quando:** Excluir  
+  **Então:** Deve gerar erro 404 (tarefa não encontrada)
+  
+- **Quando:** Buscar por id 
+  **Então:** Deve gerar erro 404 (tarefa não encontrada)
+  
+### Dado: Tarefa existente
+
+- **Quando:** Alterar com todos os campos obrigatórios preenchidos
+  **Então:** Então deve alterar com sucesso
+
+- **Quando:** Excluir  
+  **Então:** Deve excluir tarefa
+  
+- **Quando:** Buscar por id 
+  **Então:** Deve retornar tarefa
+
+- **Quando:** Buscar tarefas vinculadas ao usuário
+  **Então:** Deve retornar tarefa
+
+### Dado: Usuario sem tarefas cadastradas
+
+- **Quando:** Buscar tarefas vinculadas ao usuário
+  **Então:** Não deve retornar nada

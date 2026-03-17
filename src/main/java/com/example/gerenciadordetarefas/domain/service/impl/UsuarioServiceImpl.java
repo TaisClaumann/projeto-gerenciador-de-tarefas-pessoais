@@ -1,6 +1,7 @@
 package com.example.gerenciadordetarefas.domain.service.impl;
 
 import com.example.gerenciadordetarefas.domain.entity.Usuario;
+import com.example.gerenciadordetarefas.domain.exceptions.RegistroJaCadastradoException;
 import com.example.gerenciadordetarefas.domain.repository.UsuarioRepository;
 import com.example.gerenciadordetarefas.domain.service.AbstractService;
 import com.example.gerenciadordetarefas.domain.service.UsuarioService;
@@ -11,6 +12,14 @@ public class UsuarioServiceImpl extends AbstractService<Usuario, String, Usuario
 
     public UsuarioServiceImpl(UsuarioRepository usuarioRepository) {
         super(usuarioRepository, Usuario.class);
+    }
+
+    @Override
+    public Usuario salvar(Usuario usuario) {
+        repository.findById(usuario.getEmail()).ifPresent(u -> {
+            throw new RegistroJaCadastradoException(Usuario.class.getSimpleName(), usuario.getEmail());
+        });
+        return super.salvar(usuario);
     }
 
     @Override
