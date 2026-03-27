@@ -35,18 +35,36 @@ class TarefaServiceImplTest {
     private MockFactory mockFactory;
 
     private Tarefa tarefa;
+    private Tarefa tarefaRetornada;
+    private Usuario usuario;
+
+    @BeforeEach
+    void setUp() {
+        usuario = mockFactory.fabricarUsuario("teste@gmail.com");
+        tarefa = mockFactory.fabricarTarefa(null, usuario);
+
+        when(usuarioServiceMock.buscarPorId(any())).thenReturn(usuario);
+    }
 
     @Nested
     class Dado_uma_tarefa_inexistente {
 
-        private Tarefa tarefaRetornada;
+        @Nested
+        class Quando_buscar_tarefas_vinculadas_ao_usuario {
 
-        @BeforeEach
-        void setUp() {
-            Usuario usuario = mockFactory.fabricarUsuario("teste@gmail.com");
-            tarefa = mockFactory.fabricarTarefa(null, usuario);
+            private Page<Tarefa> tarefasRetornadas;
 
-            when(usuarioServiceMock.buscarPorId(any())).thenReturn(usuario);
+            @BeforeEach
+            void setUp() {
+                tarefasRetornadas = tarefaService.buscarPorUsuario(usuario.getEmail(), PageRequest.of(0, 10));
+            }
+
+            @Test
+            void Entao_nao_deve_retornar_nada() {
+                assertNotNull(tarefasRetornadas);
+                assertEquals(0, tarefasRetornadas.getTotalElements());
+                assertTrue(tarefasRetornadas.getContent().isEmpty());
+            }
         }
 
         @Nested
@@ -93,21 +111,14 @@ class TarefaServiceImplTest {
     class Dado_uma_tarefa_existente {
 
         private Tarefa tarefaSalva;
-        private Usuario usuario;
 
         @BeforeEach
         void setUp() {
-            usuario = mockFactory.fabricarUsuario("teste@gmail.com");
-            tarefa = mockFactory.fabricarTarefa(null, usuario);
-
-            when(usuarioServiceMock.buscarPorId(any())).thenReturn(usuario);
             tarefaSalva = tarefaService.salvar(tarefa);
         }
 
         @Nested
         class Quando_buscar_por_id {
-
-            private Tarefa tarefaRetornada;
 
             @BeforeEach
             void setUp() {
@@ -125,19 +136,19 @@ class TarefaServiceImplTest {
         @Nested
         class Quando_alterar {
 
-            private Tarefa tarefaAtualizada;
+            private static final String TITULO_ATUALIZADO = "Título Atualizado";
 
             @BeforeEach
             void setUp() {
-                tarefa.setTitulo("Título Atualizado");
-                tarefaAtualizada = tarefaService.atualizar(tarefaSalva.getId(), tarefa);
+                tarefa.setTitulo(TITULO_ATUALIZADO);
+                tarefaRetornada = tarefaService.atualizar(tarefaSalva.getId(), tarefa);
             }
 
             @Test
             void Entao_deve_alterar_com_sucesso() {
-                assertNotNull(tarefaAtualizada);
-                assertEquals(tarefaSalva.getId(), tarefaAtualizada.getId());
-                assertEquals("Título Atualizado", tarefaAtualizada.getTitulo());
+                assertNotNull(tarefaRetornada);
+                assertEquals(tarefaSalva.getId(), tarefaRetornada.getId());
+                assertEquals(TITULO_ATUALIZADO, tarefaRetornada.getTitulo());
             }
         }
 
@@ -176,58 +187,22 @@ class TarefaServiceImplTest {
                 assertTrue(tarefasRetornadas.getTotalElements() >= 1);
             }
         }
-    }
-
-    @Nested
-    class Dado_um_usuario_sem_tarefas {
-
-        private Usuario usuario;
-
-        @BeforeEach
-        void setUp() {
-            usuario = mockFactory.fabricarUsuario("usuario-sem-tarefas@gmail.com");
-            when(usuarioServiceMock.buscarPorId(any())).thenReturn(usuario);
-        }
 
         @Nested
-        class Quando_buscar_tarefas_vinculadas_ao_usuario {
+        class Quando_listar_todas_as_tarefas {
 
             private Page<Tarefa> tarefasRetornadas;
 
             @BeforeEach
             void setUp() {
-                tarefasRetornadas = tarefaService.buscarPorUsuario(usuario.getEmail(), PageRequest.of(0, 10));
+                tarefasRetornadas = tarefaService.listarTodos(PageRequest.of(0, 10));
             }
 
             @Test
-            void Entao_nao_deve_retornar_nada() {
+            void Entao_deve_retornar_pagina_de_tarefas() {
                 assertNotNull(tarefasRetornadas);
-                assertEquals(0, tarefasRetornadas.getTotalElements());
-                assertTrue(tarefasRetornadas.getContent().isEmpty());
+                assertTrue(tarefasRetornadas.getTotalElements() >= 1);
             }
-        }
-    }
-
-    @Nested
-    class Quando_listar_todas_as_tarefas {
-
-        private Page<Tarefa> tarefasRetornadas;
-
-        @BeforeEach
-        void setUp() {
-            Usuario usuario = mockFactory.fabricarUsuario("teste@gmail.com");
-            tarefa = mockFactory.fabricarTarefa(null, usuario);
-
-            when(usuarioServiceMock.buscarPorId(any())).thenReturn(usuario);
-            tarefaService.salvar(tarefa);
-
-            tarefasRetornadas = tarefaService.listarTodos(PageRequest.of(0, 10));
-        }
-
-        @Test
-        void Entao_deve_retornar_pagina_de_tarefas() {
-            assertNotNull(tarefasRetornadas);
-            assertTrue(tarefasRetornadas.getTotalElements() >= 1);
         }
     }
 }
