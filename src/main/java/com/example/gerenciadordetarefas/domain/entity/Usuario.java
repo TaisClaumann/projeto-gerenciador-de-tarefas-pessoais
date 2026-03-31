@@ -14,7 +14,6 @@ import org.hibernate.annotations.SQLRestriction;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLRestriction("ativo = true")
 @Entity
 @Builder
 public class Usuario {

@@ -26,22 +26,9 @@ public abstract class AbstractService<T, ID extends Serializable, R extends JpaR
     }
 
     @Override
-    @Transactional
-    public T atualizar(ID id, T entity) {
-        buscarPorId(id);
-        return repository.save(entity);
-    }
-
-    @Override
     public T buscarPorId(ID id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RegistroNaoEncontradoException(entityClass.getSimpleName(), id));
-    }
-
-    @Override
-    @Transactional
-    public void excluir(ID id) {
-        repository.deleteById(id);
     }
 
     @Override
