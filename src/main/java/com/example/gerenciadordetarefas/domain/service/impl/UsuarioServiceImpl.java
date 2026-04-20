@@ -23,6 +23,7 @@ public class UsuarioServiceImpl extends AbstractService<Usuario, String, Usuario
         repository.findById(usuario.getEmail()).ifPresent(p -> {
             throw new RegistroJaCadastradoException(Usuario.class.getSimpleName(), usuario.getEmail());
         });
+        usuario.setAtivo(true);
         return super.salvar(usuario);
     }
 
