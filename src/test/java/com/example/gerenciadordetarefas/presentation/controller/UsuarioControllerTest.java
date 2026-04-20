@@ -109,7 +109,28 @@ class UsuarioControllerTest {
             @Test
             void Entao_deve_gerar_erro() throws Exception {
                 resultActions.andExpect(status().isBadRequest())
-                        .andExpect(jsonPath("$.erro").value("Erro de validação nos campos: email"));
+                        .andExpect(jsonPath("$.erro").value("Email é obrigatório"));
+                verify(usuarioService, never()).salvar(any());
+            }
+        }
+
+        @Nested
+        class Quando_salvar_com_email_invalido {
+
+            @BeforeEach
+            void setUp() throws Exception {
+                usuarioRequestDto.setEmail(mockFactory.novoSequencial().toString());
+
+                String json = objectMapper.writeValueAsString(usuarioRequestDto);
+                resultActions = mockMvc.perform(post(ROTA)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json));
+            }
+
+            @Test
+            void Entao_deve_gerar_erro() throws Exception {
+                resultActions.andExpect(status().isBadRequest())
+                        .andExpect(jsonPath("$.erro").value("Email deve ser válido"));
                 verify(usuarioService, never()).salvar(any());
             }
         }

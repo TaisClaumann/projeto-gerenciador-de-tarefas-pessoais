@@ -110,7 +110,7 @@ class TarefaControllerTest {
             @Test
             void Entao_deve_gerar_erro() throws Exception {
                 resultActions.andExpect(status().isBadRequest())
-                        .andExpect(jsonPath("$.erro").value("Erro de validação nos campos: titulo"));
+                        .andExpect(jsonPath("$.erro").value("Título é obrigatório"));
                 verify(tarefaService, never()).salvar(any());
             }
         }
@@ -131,7 +131,7 @@ class TarefaControllerTest {
             @Test
             void Entao_deve_gerar_erro() throws Exception {
                 resultActions.andExpect(status().isBadRequest())
-                        .andExpect(jsonPath("$.erro").value("Erro de validação nos campos: status"));
+                        .andExpect(jsonPath("$.erro").value("Status é obrigatório"));
                 verify(tarefaService, never()).salvar(any());
             }
         }
@@ -152,7 +152,7 @@ class TarefaControllerTest {
             @Test
             void Entao_deve_gerar_erro() throws Exception {
                 resultActions.andExpect(status().isBadRequest())
-                        .andExpect(jsonPath("$.erro").value("Erro de validação nos campos: prioridade"));
+                        .andExpect(jsonPath("$.erro").value("Prioridade é obrigatória"));
                 verify(tarefaService, never()).salvar(any());
             }
         }
@@ -173,7 +173,7 @@ class TarefaControllerTest {
             @Test
             void Entao_deve_gerar_erro() throws Exception {
                 resultActions.andExpect(status().isBadRequest())
-                        .andExpect(jsonPath("$.erro").value("Erro de validação nos campos: usuario"));
+                        .andExpect(jsonPath("$.erro").value("Usuário é obrigatório"));
                 verify(tarefaService, never()).salvar(any());
             }
         }

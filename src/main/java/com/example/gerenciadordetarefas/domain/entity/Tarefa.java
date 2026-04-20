@@ -3,7 +3,6 @@ package com.example.gerenciadordetarefas.domain.entity;
 import com.example.gerenciadordetarefas.domain.entity.enums.Prioridade;
 import com.example.gerenciadordetarefas.domain.entity.enums.Status;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Getter
@@ -18,20 +17,20 @@ public class Tarefa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @Column(nullable = false)
     private String titulo;
 
     private String descricao;
 
-    @NonNull
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @NonNull
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Prioridade prioridade;
 
-    @NonNull
+    @JoinColumn(nullable = false)
     @ManyToOne
     private Usuario usuario;
 }
