@@ -27,15 +27,17 @@ class UsuarioServiceImplTest {
     @Autowired
     private MockFactory mockFactory;
 
-    private static final String EMAIL_USUARIO = "teste@email.com";
-    private static final String MENSAGEM_ERRO_404 = "Usuario com ID " + EMAIL_USUARIO + " não encontrado";
+    private String mensagemErro404;
 
     private Usuario usuario;
     private Usuario usuarioRetornado;
 
     @BeforeEach
     void setUp() {
-        usuario = mockFactory.fabricarUsuario(EMAIL_USUARIO);
+        String emailUsuario = "teste" + mockFactory.novoSequencial() + "@email.com";
+        mensagemErro404 = "Usuario com ID " + emailUsuario + " não encontrado";
+
+        usuario = mockFactory.fabricarUsuario(emailUsuario);
     }
 
     @Nested
@@ -68,7 +70,7 @@ class UsuarioServiceImplTest {
                         () -> usuarioService.buscarPorId(usuario.getEmail())
                 );
 
-                assertEquals(MENSAGEM_ERRO_404, exception.getMessage());
+                assertEquals(mensagemErro404, exception.getMessage());
             }
         }
 
@@ -82,7 +84,7 @@ class UsuarioServiceImplTest {
                         () -> usuarioService.atualizar(usuario.getEmail(), usuario)
                 );
 
-                assertEquals(MENSAGEM_ERRO_404, exception.getMessage());
+                assertEquals(mensagemErro404, exception.getMessage());
             }
         }
 
@@ -96,7 +98,7 @@ class UsuarioServiceImplTest {
                         () -> usuarioService.excluir(usuario.getEmail())
                 );
 
-                assertEquals(MENSAGEM_ERRO_404, exception.getMessage());
+                assertEquals(mensagemErro404, exception.getMessage());
             }
         }
     }
@@ -104,13 +106,17 @@ class UsuarioServiceImplTest {
     @Nested
     class Dado_um_usuario_existente {
 
+        @BeforeEach
+        void setUp() {
+            usuarioService.salvar(usuario);
+        }
+
         @Nested
         class Quando_ativo {
 
             @BeforeEach
             void setUp() {
-                usuario.setAtivo(true);
-                usuarioService.salvar(usuario);
+                assertTrue(usuarioService.buscarPorId(usuario.getEmail()).isAtivo());
             }
 
             @Nested
@@ -205,7 +211,6 @@ class UsuarioServiceImplTest {
 
             @BeforeEach
             void setUp() {
-                usuarioService.salvar(usuario);
                 usuarioService.excluir(usuario.getEmail());
             }
 

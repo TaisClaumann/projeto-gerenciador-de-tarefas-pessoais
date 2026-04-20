@@ -63,6 +63,22 @@ A ideia é funcionar como um **mini Trello / To-Do List**, onde cada usuário ge
     - Integração (subindo o contexto Spring)
 - **Cobertura de código com Jacoco**
 
+### 🏭 MockFactory - Gerador de Dados de Teste
+
+O projeto utiliza uma classe `MockFactory` para fabricar objetos de teste de forma padronizada e evitar conflitos entre testes.
+
+**Principais recursos:**
+
+- **`novoSequencial()`**: Gera números únicos e incrementais usando `AtomicLong`
+  - Thread-safe para execução paralela de testes
+  - Evita conflitos de chave única (emails, IDs, etc.)
+  - Exemplo: `teste1@gmail.com`, `teste2@gmail.com`, `teste3@gmail.com`
+
+**Por que AtomicLong?**
+- Garante operações atômicas (indivisíveis) em ambientes multi-thread
+- Evita race conditions quando múltiplos testes acessam o contador
+- Performance similar ao `long` comum, mas com segurança adicional
+
 ---
 
 ## 🌐 API REST

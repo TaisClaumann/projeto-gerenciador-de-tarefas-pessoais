@@ -28,8 +28,8 @@ class TarefaServiceImplTest {
     @Autowired
     private TarefaService tarefaService;
 
-    @MockitoBean
-    private UsuarioService usuarioServiceMock;
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Autowired
     private MockFactory mockFactory;
@@ -40,10 +40,10 @@ class TarefaServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        usuario = mockFactory.fabricarUsuario("teste@gmail.com");
+        String email = "teste" + mockFactory.novoSequencial() + "@gmail.com";
+        usuario = mockFactory.fabricarUsuario(email);
+        usuario = usuarioService.salvar(usuario);
         tarefa = mockFactory.fabricarTarefa(null, usuario);
-
-        when(usuarioServiceMock.buscarPorId(any())).thenReturn(usuario);
     }
 
     @Nested

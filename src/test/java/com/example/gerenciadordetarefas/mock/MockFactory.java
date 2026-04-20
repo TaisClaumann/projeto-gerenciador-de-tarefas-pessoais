@@ -9,8 +9,16 @@ import com.example.gerenciadordetarefas.presentation.dto.UsuarioResponseDto;
 import com.example.gerenciadordetarefas.presentation.mapper.TarefaMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 @Component
 public class MockFactory {
+
+    private final AtomicLong sequencial = new AtomicLong(1);
+
+    public Long novoSequencial() {
+        return sequencial.getAndIncrement();
+    }
 
     public Tarefa fabricarTarefa(Long id, Usuario usuario) {
         return Tarefa.builder()
