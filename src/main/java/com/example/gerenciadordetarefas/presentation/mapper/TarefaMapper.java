@@ -23,7 +23,7 @@ public class TarefaMapper {
                 .build();
     }
 
-    public TarefaDto toResponseDto(Tarefa tarefa) {
+    public TarefaDto toDto(Tarefa tarefa) {
         return TarefaDto.builder()
                 .id(tarefa.getId())
                 .titulo(tarefa.getTitulo())

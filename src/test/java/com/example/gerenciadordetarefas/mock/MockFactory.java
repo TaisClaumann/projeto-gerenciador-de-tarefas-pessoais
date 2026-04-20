@@ -4,6 +4,9 @@ import com.example.gerenciadordetarefas.domain.entity.Tarefa;
 import com.example.gerenciadordetarefas.domain.entity.Usuario;
 import com.example.gerenciadordetarefas.domain.entity.enums.Prioridade;
 import com.example.gerenciadordetarefas.domain.entity.enums.Status;
+import com.example.gerenciadordetarefas.presentation.dto.TarefaDto;
+import com.example.gerenciadordetarefas.presentation.dto.UsuarioResponseDto;
+import com.example.gerenciadordetarefas.presentation.mapper.TarefaMapper;
 import org.springframework.stereotype.Component;
 
 @Component

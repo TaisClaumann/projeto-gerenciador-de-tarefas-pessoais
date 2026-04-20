@@ -27,18 +27,18 @@ public class TarefaController {
     @PostMapping
     public TarefaDto salvar(@Valid @RequestBody TarefaDto tarefaDto) {
         Tarefa tarefa = tarefaService.salvar(tarefaMapper.toEntity(tarefaDto));
-        return tarefaMapper.toResponseDto(tarefa);
+        return tarefaMapper.toDto(tarefa);
     }
 
     @GetMapping("/{id}")
     public TarefaDto buscarPorId(@PathVariable Long id) {
-        return tarefaMapper.toResponseDto(tarefaService.buscarPorId(id));
+        return tarefaMapper.toDto(tarefaService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
     public TarefaDto atualizar(@PathVariable Long id, @RequestBody TarefaDto tarefaDto) {
         Tarefa tarefa = tarefaService.atualizar(id, tarefaMapper.toEntity(tarefaDto));
-        return tarefaMapper.toResponseDto(tarefa);
+        return tarefaMapper.toDto(tarefa);
     }
 
     @DeleteMapping("/{id}")
@@ -50,7 +50,7 @@ public class TarefaController {
     public Page<TarefaDto> listarTodos(@RequestParam(required = false) String email,
                                                  @PageableDefault(page = 0, size = 10) Pageable pageable) {
         return Objects.nonNull(email) ?
-                tarefaService.buscarPorUsuario(email, pageable).map(tarefaMapper::toResponseDto) :
-                tarefaService.listarTodos(pageable).map(tarefaMapper::toResponseDto);
+                tarefaService.buscarPorUsuario(email, pageable).map(tarefaMapper::toDto) :
+                tarefaService.listarTodos(pageable).map(tarefaMapper::toDto);
     }
 }

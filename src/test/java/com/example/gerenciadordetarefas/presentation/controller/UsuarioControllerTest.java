@@ -50,24 +50,24 @@ class UsuarioControllerTest {
     private static final String EMAIL_USUARIO = "teste@email.com";
     private static final String MENSAGEM_ERRO_404 = "Usuario com ID " + EMAIL_USUARIO + " não encontrado";
 
-    private UsuarioRequestDto usuarioRequestDto;
-    private Usuario usuario;
-    private ResultActions resultActions;
-
-    @BeforeEach
-    void setUp() {
-        usuarioRequestDto = UsuarioRequestDto.builder()
-                .email(EMAIL_USUARIO)
-                .nome("Nome")
-                .senha("Senha")
-                .ativo(true)
-                .build();
-
-        usuario = mockFactory.fabricarUsuario(EMAIL_USUARIO);
-    }
-
     @Nested
     class Dado_um_usuario {
+
+        private UsuarioRequestDto usuarioRequestDto;
+        private Usuario usuario;
+        private ResultActions resultActions;
+
+        @BeforeEach
+        void setUp() {
+            usuarioRequestDto = UsuarioRequestDto.builder()
+                    .email(EMAIL_USUARIO)
+                    .nome("Nome")
+                    .senha("Senha")
+                    .ativo(true)
+                    .build();
+
+            usuario = mockFactory.fabricarUsuario(EMAIL_USUARIO);
+        }
 
         @Nested
         class Quando_salvar_com_todos_os_atributos_obrigatorios_preenchidos {
