@@ -13,7 +13,6 @@ public class UsuarioMapper {
                 .nome(dto.getNome())
                 .email(dto.getEmail())
                 .senha(dto.getSenha())
-                .ativo(dto.isAtivo())
                 .build();
     }
 

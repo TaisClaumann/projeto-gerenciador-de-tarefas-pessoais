@@ -40,6 +40,7 @@ public class UsuarioServiceImpl extends AbstractService<Usuario, String, Usuario
     public Usuario atualizar(String email, Usuario usuario) {
         buscarPorId(email);
         usuario.setEmail(email);
+        usuario.setAtivo(true);
         return repository.save(usuario);
     }
 }

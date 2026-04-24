@@ -20,6 +20,4 @@ public class UsuarioRequestDto {
 
     @NotBlank(message = "Senha é obrigatória")
     private String senha;
-
-    private boolean ativo;
 }

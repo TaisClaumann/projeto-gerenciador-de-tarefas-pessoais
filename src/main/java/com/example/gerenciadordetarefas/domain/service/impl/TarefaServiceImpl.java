@@ -27,6 +27,7 @@ public class TarefaServiceImpl extends AbstractService<Tarefa, Long, TarefaRepos
     }
 
     @Override
+    @Transactional
     public Tarefa atualizar(Long id, Tarefa tarefa) {
         buscarPorId(id);
         tarefa.setId(id);
