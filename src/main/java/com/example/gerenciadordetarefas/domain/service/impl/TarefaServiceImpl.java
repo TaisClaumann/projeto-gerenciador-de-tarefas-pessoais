@@ -21,6 +21,12 @@ public class TarefaServiceImpl extends AbstractService<Tarefa, Long, TarefaRepos
     }
 
     @Override
+    public Tarefa salvar(Tarefa tarefa) {
+        tarefa.setUsuario(usuarioService.buscarPorId(tarefa.getUsuario().getEmail()));
+        return super.salvar(tarefa);
+    }
+
+    @Override
     public Page<Tarefa> buscarPorUsuario(String email, Pageable pageable) {
         usuarioService.buscarPorId(email);
         return repository.findByUsuarioEmail(email, pageable);

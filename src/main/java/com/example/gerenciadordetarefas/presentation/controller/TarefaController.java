@@ -48,7 +48,7 @@ public class TarefaController {
 
     @GetMapping
     public Page<TarefaDto> listarTodos(@RequestParam(required = false) String email,
-                                                 @PageableDefault(page = 0, size = 10) Pageable pageable) {
+                                       @PageableDefault(page = 0, size = 10) Pageable pageable) {
         return Objects.nonNull(email) ?
                 tarefaService.buscarPorUsuario(email, pageable).map(tarefaMapper::toDto) :
                 tarefaService.listarTodos(pageable).map(tarefaMapper::toDto);
